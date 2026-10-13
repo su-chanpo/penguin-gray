@@ -215,7 +215,6 @@ img { display: block; width: 100%; }
 .footer-brand .brand-name { font-size: 14px; }
 .footer-brand .brand-subtitle { font-size: 7px; }
 .footer-caption, .footer-instagram, .copyright { color: var(--muted); font-size: 8px; letter-spacing: .1em; }
-.admin-footer-link { color: #8a897d; font-size: 8px; letter-spacing: .04em; }
 
 .cart-backdrop { position: fixed; z-index: 9; inset: 0; background: rgb(30 30 25 / 36%); }
 .cart-drawer {

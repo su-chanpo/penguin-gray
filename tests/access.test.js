@@ -78,6 +78,24 @@ test("本番設定が不足している場合に管理APIを閉じる", async ()
   assert.equal(response.status, 503);
 });
 
+test("Access未認証では管理画面を配信しない", async () => {
+  let assetFetchCalled = false;
+  const response = await worker.fetch(
+    new Request("https://shop.example.com/admin.html"),
+    {
+      ...env,
+      ASSETS: {
+        async fetch() {
+          assetFetchCalled = true;
+          return new Response("admin page");
+        }
+      }
+    }
+  );
+  assert.equal(response.status, 401);
+  assert.equal(assetFetchCalled, false);
+});
+
 test("有効なGoogle管理者のAccess JWTを検証する", async (context) => {
   const originalFetch = globalThis.fetch;
   context.after(() => {
@@ -96,6 +114,33 @@ test("有効なGoogle管理者のAccess JWTを検証する", async (context) => 
   );
   assert.equal(response.status, 200);
   assert.deepEqual(await response.json(), { email: "owner@example.com" });
+});
+
+test("Access認証済みの管理者には管理画面を配信する", async (context) => {
+  const originalFetch = globalThis.fetch;
+  context.after(() => {
+    globalThis.fetch = originalFetch;
+  });
+  globalThis.fetch = async () => new Response(JSON.stringify({ keys: [publicJwk] }), {
+    headers: { "Content-Type": "application/json" }
+  });
+
+  const token = await createToken();
+  const response = await worker.fetch(
+    new Request("https://shop.example.com/admin.html", {
+      headers: { "Cf-Access-Jwt-Assertion": token }
+    }),
+    {
+      ...env,
+      ASSETS: {
+        async fetch() {
+          return new Response("admin page");
+        }
+      }
+    }
+  );
+  assert.equal(response.status, 200);
+  assert.equal(await response.text(), "admin page");
 });
 
 test("D1に登録されていないGoogleアカウントを拒否する", async (context) => {

@@ -553,7 +553,10 @@ async function handleAdminApi(request, env, url) {
 
 async function route(request, env) {
   const url = new URL(request.url);
-  if (!url.pathname.startsWith("/api/")) return env.ASSETS.fetch(request);
+  if (!url.pathname.startsWith("/api/")) {
+    if (/^\/admin(?:$|[/.])/.test(url.pathname)) await getAdminIdentity(request, env);
+    return env.ASSETS.fetch(request);
+  }
   if (request.method === "GET" && url.pathname === "/api/health") return json({ ok: true });
 
   if (request.method === "GET" && url.pathname === "/api/public/products") {
