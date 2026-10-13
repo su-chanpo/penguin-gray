@@ -215,6 +215,9 @@ img { display: block; width: 100%; }
 .footer-brand .brand-name { font-size: 14px; }
 .footer-brand .brand-subtitle { font-size: 7px; }
 .footer-caption, .footer-instagram, .copyright { color: var(--muted); font-size: 8px; letter-spacing: .1em; }
+.footer-legal-links { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.footer-legal-links a { color: var(--muted); font-size: 8px; letter-spacing: .02em; white-space: nowrap; }
+.footer-legal-links a:hover, .customer-data-note a { text-decoration: underline; text-underline-offset: 3px; }
 
 .cart-backdrop { position: fixed; z-index: 9; inset: 0; background: rgb(30 30 25 / 36%); }
 .cart-drawer {
@@ -327,6 +330,7 @@ body.cart-is-open { overflow: hidden; }
   .visit-card dl > div { grid-template-columns: 75px 1fr; }
   .visit-card dt, .visit-card dd { font-size: 9px; }
   .site-footer { min-height: 120px; flex-wrap: wrap; justify-content: space-between; padding: 22px 6%; gap: 15px; }
+  .footer-legal-links { width: 100%; justify-content: center; order: 5; }
   .footer-caption { display: none; }
   .copyright { font-size: 7px; }
   .cart-drawer { padding: 22px 20px; }
