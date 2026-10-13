@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "handicraft-yamazoe",
+  "pages_build_output_dir": "./dist",
+  "compatibility_date": "2026-10-13",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "handicraft-store",
+      "database_id": "27f29df5-5c0e-48af-91f4-ce51f4e54aa3",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "vars": {
+    "ENVIRONMENT": "production"
+  }
+}

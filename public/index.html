@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f8f6f0">
+    <meta
+      name="description"
+      content="京都府京丹後市のアジアン雑貨とパワーストーンのお店、handicraft山添。日々に小さなときめきを添える手仕事の品をご紹介します。"
+    >
+    <title>handicraft 山添 | アジアン雑貨とパワーストーン</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Serif+JP:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    >
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="announcement">
+      <span id="announcement-text">京都・京丹後の小さなアジアン雑貨店</span>
+      <a href="#visit">お店のご案内 <span aria-hidden="true">↗</span></a>
+    </div>
+
+    <header class="site-header">
+      <a class="brand" href="#" aria-label="handicraft 山添 ホーム">
+        <span class="brand-mark" aria-hidden="true">h.</span>
+        <span class="brand-copy">
+          <span class="brand-name" id="store-name">handicraft</span>
+          <span class="brand-subtitle">YAMAZOE · KYOTANGO</span>
+        </span>
+      </a>
+      <nav class="main-nav" aria-label="メインナビゲーション">
+        <a href="#story">わたしたちのこと</a>
+        <a href="#shop">オンラインショップ</a>
+        <a href="#visit">店舗情報</a>
+      </nav>
+      <button class="cart-trigger" id="open-cart" type="button" aria-label="カートを開く">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 4h2l2.1 10.2a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 2-1.6L20.5 8H6"></path>
+          <circle cx="10" cy="20" r="1"></circle>
+          <circle cx="17" cy="20" r="1"></circle>
+        </svg>
+        <span>カート</span>
+        <span class="cart-count" id="cart-count" aria-live="polite">0</span>
+      </button>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <img
+          class="hero-image"
+          src="assets/instagram/DT2e7ZMAYuH.jpg"
+          alt="アロマランプや天然石が並ぶ、handicraft山添のInstagram投稿写真"
+          fetchpriority="high"
+        >
+        <div class="hero-shade"></div>
+        <div class="hero-content">
+          <p class="eyebrow hero-eyebrow">A LITTLE JOURNEY, EVERY DAY</p>
+          <h1 id="hero-title">暮らしに、<br>旅するようなときめきを。</h1>
+          <p class="hero-description">
+            遠い国の手仕事や、自然が生み出した石。<br>
+            こころ惹かれるものとの出会いを、京丹後から。
+          </p>
+          <a class="button button-light" href="#shop">お気に入りを見つける <span aria-hidden="true">→</span></a>
+        </div>
+        <a class="hero-index" href="https://www.instagram.com/asia24.09/p/DT2e7ZMAYuH/" target="_blank" rel="noreferrer">Instagramの投稿を見る ↗</a>
+      </section>
+
+      <section class="intro section-wrap" id="story">
+        <div class="intro-label">
+          <span class="eyebrow">OUR LITTLE SHOP</span>
+          <span class="intro-line" aria-hidden="true"></span>
+        </div>
+        <div class="intro-copy">
+          <p class="eyebrow">HANDPICKED WITH CARE</p>
+          <h2>好きなものに囲まれる、<br>ちいさな幸せ。</h2>
+          <p id="store-introduction">
+            handicraft山添は、京都府京丹後市にあるアジアン雑貨と
+            パワーストーンのお店です。日々の暮らしにそっとなじむ、
+            心惹かれる品との出会いをお届けします。
+          </p>
+          <a class="text-link" href="https://www.instagram.com/asia24.09/" target="_blank" rel="noreferrer">
+            Instagramでもっと見る <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+        <div class="intro-image-wrap">
+          <a class="product-image-link" href="https://www.instagram.com/asia24.09/p/DYe26iaAaUO/" target="_blank" rel="noreferrer" aria-label="Instagramの天然石ブレスレット投稿を見る">
+            <img
+              src="assets/instagram/DYe26iaAaUO.jpg"
+              alt="handicraft山添のInstagram投稿に掲載された、水色の天然石ブレスレット"
+              loading="lazy"
+            >
+          </a>
+          <span class="image-note">made with a little wonder</span>
+        </div>
+      </section>
+
+      <section class="shop-section" id="shop">
+        <div class="section-wrap shop-inner">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">FIND YOUR FAVORITE</p>
+              <h2>今日の、とっておき。</h2>
+            </div>
+            <p class="section-aside">ひとつひとつ、心を込めて選んだもの。</p>
+          </div>
+
+          <div class="shop-note" role="note">
+            <span class="note-icon" aria-hidden="true">✳</span>
+            <p id="catalog-note">
+              写真はInstagram @asia24.09 の投稿から掲載しています。商品名・価格はサンプルです。
+              在庫や最新情報は、ご購入前にお電話またはInstagramのDMでご確認ください。
+            </p>
+          </div>
+          <p class="shop-error" id="shop-error" role="alert" hidden></p>
+
+          <div class="filter-list" role="group" aria-label="商品カテゴリー">
+            <button class="filter-button is-active" type="button" data-category="all" aria-pressed="true">すべて</button>
+            <button class="filter-button" type="button" data-category="stone" aria-pressed="false">パワーストーン</button>
+            <button class="filter-button" type="button" data-category="accessory" aria-pressed="false">アクセサリー</button>
+            <button class="filter-button" type="button" data-category="goods" aria-pressed="false">アジアン雑貨</button>
+          </div>
+
+          <div class="product-grid" id="product-grid" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section class="visit-section section-wrap" id="visit">
+        <div class="visit-copy">
+          <p class="eyebrow">COME SAY HELLO</p>
+          <h2>京丹後のお店で、<br>お待ちしています。</h2>
+          <p class="visit-description" id="store-visit-copy">
+            写真では伝えきれない色や手ざわりを、ぜひお店で。<br>
+            臨時休業の場合もありますので、ご来店前にお電話ください。
+          </p>
+          <a class="button button-dark" id="store-phone-link" href="tel:0772680506">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7 3H4a1 1 0 0 0-1 1 17 17 0 0 0 17 17 1 1 0 0 0 1-1v-3l-5-2-2 2a13 13 0 0 1-6-6l2-2-2-5Z"></path>
+            </svg>
+            <span id="store-phone">0772-68-0506</span>
+          </a>
+        </div>
+        <div class="visit-card">
+          <div class="visit-card-top">
+            <span class="eyebrow">SHOP INFORMATION</span>
+            <span class="visit-spark" aria-hidden="true">✳</span>
+          </div>
+          <dl>
+            <div><dt>場所</dt><dd id="store-area">京都府京丹後市</dd></div>
+            <div><dt>営業時間</dt><dd id="store-hours">ご来店前にお電話でご確認ください</dd></div>
+            <div><dt>定休日</dt><dd id="store-closed-days">月曜日（臨時休業あり）</dd></div>
+            <div><dt>お電話</dt><dd><a id="store-phone-text" href="tel:0772680506">0772-68-0506</a></dd></div>
+          </dl>
+          <a class="text-link store-instagram-link" href="https://www.instagram.com/asia24.09/" target="_blank" rel="noreferrer">
+            お知らせはInstagramへ <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a class="brand footer-brand" href="#">
+        <span class="brand-mark" aria-hidden="true">h.</span>
+        <span class="brand-copy">
+          <span class="brand-name store-name-footer">handicraft</span>
+          <span class="brand-subtitle">YAMAZOE · KYOTANGO</span>
+        </span>
+      </a>
+      <span class="footer-caption">A LITTLE JOURNEY, EVERY DAY.</span>
+      <a class="footer-instagram store-instagram-link" href="https://www.instagram.com/asia24.09/" target="_blank" rel="noreferrer">Instagram ↗</a>
+      <a class="admin-footer-link" href="/admin.html">管理者ログイン</a>
+      <span class="copyright">© handicraft Yamazoe</span>
+    </footer>
+
+    <div class="cart-backdrop" id="cart-backdrop" hidden></div>
+    <aside class="cart-drawer" id="cart-drawer" aria-labelledby="cart-title" aria-hidden="true">
+      <div class="cart-header">
+        <div>
+          <p class="eyebrow">YOUR SELECTION</p>
+          <h2 id="cart-title">カート</h2>
+        </div>
+        <button class="icon-button" id="close-cart" type="button" aria-label="カートを閉じる">×</button>
+      </div>
+      <div class="cart-items" id="cart-items"></div>
+      <div class="cart-footer" id="cart-footer" hidden>
+        <div class="cart-total"><span>参考小計</span><strong id="cart-total">¥0</strong></div>
+        <p class="cart-disclaimer">在庫確認のお問い合わせです。注文・決済はまだ確定しません。</p>
+        <form class="order-form" id="order-form">
+          <label>
+            お名前
+            <input name="customerName" required maxlength="80" autocomplete="name">
+          </label>
+          <label>
+            電話番号またはメールアドレス
+            <input name="contact" type="text" required maxlength="120" autocomplete="email" inputmode="text">
+          </label>
+          <label>
+            ご質問（任意）
+            <textarea name="note" maxlength="1000" rows="3"></textarea>
+          </label>
+          <p class="customer-data-note">入力内容はお問い合わせへの対応に使用し、管理画面から削除できます。</p>
+          <button class="button button-dark" type="submit">在庫確認を問い合わせる</button>
+          <p class="order-status" id="order-status" role="status" aria-live="polite"></p>
+        </form>
+        <button class="button button-dark copy-order" id="copy-order" type="button">注文内容をコピー</button>
+        <a class="dm-link" href="https://ig.me/m/asia24.09" target="_blank" rel="noreferrer">InstagramのDMで相談する ↗</a>
+        <p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>
+        <textarea class="order-fallback" id="order-fallback" aria-label="注文内容。コピーしてDMに貼り付けてください。" readonly hidden></textarea>
+      </div>
+    </aside>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

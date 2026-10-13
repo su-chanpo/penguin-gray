@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#f5f4ef">
+    <title>管理者ページ | handicraft 山添</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Serif+JP:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    >
+    <link rel="stylesheet" href="admin.css">
+    <script src="admin.js" defer></script>
+  </head>
+  <body>
+    <div class="admin-frame" id="admin-frame" hidden>
+      <aside class="admin-sidebar">
+        <a class="admin-brand" href="/">
+          <span class="brand-mark">h.</span>
+          <span><strong>handicraft</strong><small>STORE ADMIN</small></span>
+        </a>
+        <nav class="admin-nav" aria-label="管理メニュー">
+          <button type="button" class="nav-item is-active" data-view="overview"><span>01</span>ダッシュボード</button>
+          <button type="button" class="nav-item" data-view="products"><span>02</span>商品管理</button>
+          <button type="button" class="nav-item" data-view="orders"><span>03</span>注文・お問い合わせ</button>
+          <button type="button" class="nav-item" data-view="settings"><span>04</span>店舗・サイト情報</button>
+          <button type="button" class="nav-item" data-view="administrators"><span>05</span>管理者</button>
+        </nav>
+        <div class="sidebar-bottom">
+          <span class="connection-dot"></span>
+          <span>Cloudflare D1 接続</span>
+        </div>
+      </aside>
+
+      <main class="admin-main">
+        <header class="admin-topbar">
+          <div>
+            <p class="eyebrow">HANDICRAFT · KYOTANGO</p>
+            <h1 id="view-title">ダッシュボード</h1>
+          </div>
+          <div class="admin-user">
+            <span class="user-avatar" aria-hidden="true">Y</span>
+            <span id="admin-email">Google認証を確認中</span>
+            <a href="/" class="store-link">ショップを見る ↗</a>
+          </div>
+        </header>
+
+        <p class="admin-alert" id="admin-alert" role="alert" hidden></p>
+        <p class="admin-toast" id="admin-toast" role="status" aria-live="polite"></p>
+
+        <section class="admin-view is-visible" id="view-overview" aria-labelledby="view-title">
+          <div class="welcome-card">
+            <div>
+              <p class="eyebrow">STORE OVERVIEW</p>
+              <h2>お店の今を、ここから。</h2>
+              <p>商品やお問い合わせ、店舗情報をまとめて管理できます。</p>
+            </div>
+            <span class="welcome-mark" aria-hidden="true">h.</span>
+          </div>
+          <div class="stat-grid">
+            <article class="stat-card"><span>公開中の商品</span><strong id="stat-products">—</strong><small>件</small></article>
+            <article class="stat-card"><span>未対応のお問い合わせ</span><strong id="stat-orders">—</strong><small>件</small></article>
+            <article class="stat-card"><span>サンプル商品</span><strong id="stat-samples">—</strong><small>件</small></article>
+          </div>
+          <div class="overview-columns">
+            <section class="panel">
+              <div class="panel-heading"><div><p class="eyebrow">RECENT INQUIRIES</p><h2>最近のお問い合わせ</h2></div><button class="inline-link" data-go="orders" type="button">一覧を見る →</button></div>
+              <div id="recent-orders" class="recent-list"></div>
+            </section>
+            <section class="panel quick-panel">
+              <p class="eyebrow">QUICK ACCESS</p>
+              <h2>よく使うメニュー</h2>
+              <button class="quick-link" data-go="products" type="button">商品を追加・編集 <span>→</span></button>
+              <button class="quick-link" data-go="orders" type="button">お問い合わせを確認 <span>→</span></button>
+              <button class="quick-link" data-go="settings" type="button">営業時間などを変更 <span>→</span></button>
+            </section>
+          </div>
+        </section>
+
+        <section class="admin-view" id="view-products" aria-labelledby="view-title" hidden>
+          <div class="section-toolbar">
+            <div><p class="eyebrow">CATALOG</p><p class="section-description">商品情報を編集すると、ショップページに反映されます。</p></div>
+            <button class="primary-button" id="add-product" type="button">＋ 商品を追加</button>
+          </div>
+          <div class="panel table-panel">
+            <div class="table-scroll">
+              <table>
+                <thead><tr><th>商品</th><th>カテゴリー</th><th>価格</th><th>状態</th><th><span class="visually-hidden">操作</span></th></tr></thead>
+                <tbody id="product-rows"></tbody>
+              </table>
+            </div>
+            <p class="empty-state" id="products-empty" hidden>商品はまだ登録されていません。</p>
+          </div>
+          <form class="panel editor-panel" id="product-form" hidden>
+            <div class="panel-heading"><div><p class="eyebrow">PRODUCT DETAILS</p><h2 id="product-form-title">商品を追加</h2></div><button class="quiet-button" id="cancel-product" type="button">閉じる</button></div>
+            <input type="hidden" name="id">
+            <div class="form-grid">
+              <label class="field">商品名<input name="name" required maxlength="120"></label>
+              <label class="field">カテゴリー
+                <select name="category" required>
+                  <option value="stone">パワーストーン</option>
+                  <option value="accessory">アクセサリー</option>
+                  <option value="goods">アジアン雑貨</option>
+                </select>
+              </label>
+              <label class="field">価格（円）<input name="price" type="number" min="1" max="10000000" step="1" required></label>
+              <label class="field">表示順<input name="sortOrder" type="number" min="0" max="100000" step="1" value="100" required></label>
+              <label class="field field-wide">商品説明<textarea name="description" rows="3" maxlength="500"></textarea></label>
+              <label class="field">商品写真
+                <select name="image" id="product-image" required>
+                  <option value="/assets/instagram/DT2e7ZMAYuH.jpg" data-post="https://www.instagram.com/asia24.09/p/DT2e7ZMAYuH/">アロマランプ</option>
+                  <option value="/assets/instagram/DNZ1QTRBzj-.jpg" data-post="https://www.instagram.com/asia24.09/p/DNZ1QTRBzj-/">黒い天然石ブレスレット</option>
+                  <option value="/assets/instagram/DF_4xgUSHfS.jpg" data-post="https://www.instagram.com/asia24.09/p/DF_4xgUSHfS/">彩り天然石ブレスレット</option>
+                  <option value="/assets/instagram/DZ9G9HuhFec.jpg" data-post="https://www.instagram.com/asia24.09/p/DZ9G9HuhFec/">ビーズキーホルダー</option>
+                  <option value="/assets/instagram/DYe26iaAaUO.jpg" data-post="https://www.instagram.com/asia24.09/p/DYe26iaAaUO/">水色の天然石ブレスレット</option>
+                  <option value="/assets/instagram/DYe2SVUAU3E.jpg" data-post="https://www.instagram.com/asia24.09/p/DYe2SVUAU3E/">ガラスの龍とクリスタル</option>
+                </select>
+                <img class="image-preview" id="product-image-preview" src="/assets/instagram/DT2e7ZMAYuH.jpg" alt="選択中の商品写真">
+              </label>
+              <label class="field field-wide">元のInstagram投稿URL<input name="instagramPost" id="product-instagram-post" type="url" required></label>
+              <label class="check-field"><input name="isActive" type="checkbox" checked> ショップに公開する</label>
+              <label class="check-field"><input name="isSample" type="checkbox" checked> サンプル商品として表示する</label>
+            </div>
+            <div class="form-actions"><button class="quiet-button" id="cancel-product-bottom" type="button">キャンセル</button><button class="primary-button" type="submit">変更を保存</button></div>
+            <p class="form-status" id="product-form-status" role="status"></p>
+          </form>
+        </section>
+
+        <section class="admin-view" id="view-orders" aria-labelledby="view-title" hidden>
+          <div class="section-toolbar">
+            <div><p class="eyebrow">CUSTOMER INQUIRIES</p><p class="section-description">在庫確認の問い合わせ一覧です。決済・購入は確定していません。</p></div>
+            <button class="quiet-button" id="refresh-orders" type="button">更新 ↻</button>
+          </div>
+          <div class="panel table-panel">
+            <div class="table-scroll">
+              <table class="orders-table">
+                <thead><tr><th>受付日時</th><th>お客様・連絡先</th><th>商品・お問い合わせ</th><th>参考金額</th><th>対応状況</th><th><span class="visually-hidden">操作</span></th></tr></thead>
+                <tbody id="order-rows"></tbody>
+              </table>
+            </div>
+            <p class="empty-state" id="orders-empty" hidden>お問い合わせはまだありません。</p>
+          </div>
+        </section>
+
+        <section class="admin-view" id="view-settings" aria-labelledby="view-title" hidden>
+          <div class="section-toolbar">
+            <div><p class="eyebrow">STORE PROFILE</p><p class="section-description">ショップに表示する店舗情報を編集します。</p></div>
+          </div>
+          <form class="panel settings-panel" id="settings-form">
+            <div class="panel-heading"><div><p class="eyebrow">PUBLIC INFORMATION</p><h2>店舗・サイト情報</h2></div></div>
+            <div class="form-grid">
+              <label class="field">店名<input name="store_name" maxlength="100" required></label>
+              <label class="field">お知らせ帯の文言<input name="announcement" maxlength="200" required></label>
+              <label class="field">電話番号<input name="phone" type="tel" maxlength="30" required></label>
+              <label class="field">所在地<input name="area" maxlength="120" required></label>
+              <label class="field">営業時間<input name="hours" maxlength="120" required></label>
+              <label class="field">定休日<input name="closed_days" maxlength="120" required></label>
+              <label class="field field-wide">お店の紹介<textarea name="intro" rows="4" maxlength="600" required></textarea></label>
+              <label class="field field-wide">店舗案内文<textarea name="visit_copy" rows="3" maxlength="600" required></textarea></label>
+              <label class="field field-wide">InstagramプロフィールURL<input name="instagram_url" type="url" maxlength="200" required></label>
+            </div>
+            <div class="form-actions"><button class="primary-button" type="submit">店舗情報を保存</button></div>
+            <p class="form-status" id="settings-status" role="status"></p>
+          </form>
+        </section>
+
+        <section class="admin-view" id="view-administrators" aria-labelledby="view-title" hidden>
+          <div class="section-toolbar">
+            <div>
+              <p class="eyebrow">ADMIN ACCESS</p>
+              <p class="section-description">Googleアカウントを追加すると管理画面を利用できます。初期管理者はCloudflareの設定で管理します。</p>
+            </div>
+          </div>
+          <form class="panel manager-form" id="administrator-form">
+            <div class="panel-heading"><div><p class="eyebrow">ADD ADMINISTRATOR</p><h2>管理者を追加</h2></div></div>
+            <div class="manager-form-row">
+              <label class="field" for="administrator-email">Googleアカウントのメールアドレス</label>
+              <input id="administrator-email" name="email" type="email" autocomplete="email" maxlength="254" required placeholder="name@example.com">
+              <button class="primary-button" type="submit">追加する</button>
+            </div>
+            <p class="manager-help">追加された方はGoogleログインで管理画面に入れます。アクセス権はこの一覧から停止できます。</p>
+            <p class="form-status" id="administrator-status" role="status"></p>
+          </form>
+          <div class="panel table-panel manager-table">
+            <div class="table-scroll">
+              <table>
+                <thead><tr><th>Googleアカウント</th><th>権限</th><th>状態</th><th>登録者</th><th><span class="visually-hidden">操作</span></th></tr></thead>
+                <tbody id="administrator-rows"></tbody>
+              </table>
+            </div>
+            <p class="empty-state" id="administrators-empty" hidden>追加の管理者はいません。</p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <main class="auth-state" id="auth-state">
+      <span class="auth-mark" aria-hidden="true">h.</span>
+      <p class="eyebrow">HANDICRAFT STORE ADMIN</p>
+      <h1>管理者ログインを確認しています</h1>
+      <p id="auth-message">GoogleアカウントでCloudflare Accessにログインしてください。</p>
+      <a href="/" class="store-link">ショップへ戻る</a>
+    </main>
+  </body>
+</html>

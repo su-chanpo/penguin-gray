@@ -1,0 +1,18 @@
+{
+  "name": "handicraft-yamazoe",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:pages": "node scripts/build-pages.js",
+    "predev": "npm run build:pages",
+    "dev": "wrangler pages dev dist --ip 0.0.0.0 --port 8000",
+    "db:migrate:local": "wrangler d1 migrations apply handicraft-store --local",
+    "db:migrate:remote": "wrangler d1 migrations apply handicraft-store --remote",
+    "predeploy": "npm run build:pages",
+    "deploy": "wrangler pages deploy dist --project-name handicraft-yamazoe",
+    "test": "node --test"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
