@@ -1,6 +1,6 @@
 # handicraft 山添
 
-Cloudflare Pagesで配信するショップと、D1に接続する管理画面です。Pages FunctionsのAdvanced modeを使い、既存のWorker APIを `dist/_worker.js` としてビルドします。
+Cloudflare Pagesで配信する店舗紹介ページと、D1に接続する管理画面です。オンラインショップは現在一時停止しており、公開ページでの商品一覧・カート・注文受付はありません。商品や過去のお問い合わせの管理機能は、再開に備えて保持しています。Pages FunctionsのAdvanced modeを使い、既存のWorker APIを `dist/_worker.js` としてビルドします。
 
 参考: [Pages Functions Advanced mode](https://developers.cloudflare.com/pages/functions/advanced-mode/) · [Pages Functions bindings](https://developers.cloudflare.com/pages/functions/bindings/) · [D1 Worker API](https://developers.cloudflare.com/d1/worker-api/) · [Google in Cloudflare Zero Trust](https://developers.cloudflare.com/cloudflare-one/integrations/identity-providers/google/) · [Validate Access JWTs](https://developers.cloudflare.com/cloudflare-one/access-controls/applications/http-apps/authorization-cookie/validating-json/)
 
@@ -13,7 +13,7 @@ npm run db:migrate:local
 npm run dev
 ```
 
-ショップは `http://localhost:8000/`、管理画面は `http://localhost:8000/admin` です。`npm run build:pages` は `public/` の静的ファイルと `src/index.js` をPages Advanced mode用の `dist/` に出力します。ローカル開発では `.dev.vars` に指定した開発用メールアドレスで管理画面を確認できます。このローカル認証は `ENVIRONMENT=development` の場合だけ有効で、本番環境には設定しないでください。
+店舗紹介ページは `http://localhost:8000/`、管理画面は `http://localhost:8000/admin` です。`npm run build:pages` は `public/` の静的ファイルと `src/index.js` をPages Advanced mode用の `dist/` に出力します。ローカル開発では `.dev.vars` に指定した開発用メールアドレスで管理画面を確認できます。このローカル認証は `ENVIRONMENT=development` の場合だけ有効で、本番環境には設定しないでください。
 
 ## Cloudflare Pagesの設定
 
@@ -37,10 +37,11 @@ npm run dev
 
 - 商品、公開状態、表示順、掲載写真、サンプル表示を管理できます。初期登録の商品・価格はサンプルです。
 - 店舗情報やサイトのお知らせを変更できます。
+- オンラインショップの公開と新規注文受付は一時停止しています。商品データ、管理画面、および過去のお問い合わせ記録は保持しています。
 - 初期管理者はPagesの環境変数で指定し、追加管理者の登録・再有効化・停止は管理画面から行います。初期管理者は誤操作防止のため画面から停止できません。
 - 管理画面は公開トップページからリンクせず、HTML/CSS/JavaScriptもAccess JWTまたはローカル開発認証を確認してから配信します。
 - AccessポリシーはGoogleログインを要求し、個々のメールアドレスによる制限はしません。ログイン後の管理者権限はD1で確認するため、追加したアカウントはAccessポリシーの変更なしで利用できます。
-- ショップのフォームは、名前・連絡先・問い合わせ内容を保存する**在庫確認の問い合わせ**です。決済、配送先、カード情報は扱わず、注文や購入を確定しません。
-- 問い合わせは対応状況を更新でき、削除すると連絡先などの保存データも削除されます。
+- 公開ページには商品一覧・カート・問い合わせフォームがなく、商品一覧APIと新規お問い合わせAPIも停止しています。
+- 管理画面では過去のお問い合わせの対応状況を更新できます。削除すると連絡先などの保存データも削除されます。
 - 管理APIはCloudflare AccessのJWT署名、Audience、発行元、有効期限に加え、初期管理者またはD1の有効な管理者一覧を検証します。
-- 特定商取引法に基づく表記とプライバシーポリシーをフッターから確認できます。販売業者名・所在地などの未確定項目は `public/legal.html` に後日記入し、通信販売を始める前に取引条件を完成させてください。
+- プライバシーポリシーをフッターから確認できます。`public/legal.html` は将来の通信販売再開に備えて保持しています。再開前に販売業者名・所在地などの情報と取引条件を完成させてください。

@@ -8,20 +8,19 @@ const [home, legal, privacy] = await Promise.all([
   readFile(new URL("../public/privacy.html", import.meta.url), "utf8")
 ]);
 
-test("フッターと問い合わせフォームから法的ページへ移動できる", () => {
-  assert.match(home, /href="\/legal"/);
+test("フッターからプライバシーポリシーへ移動できる", () => {
   assert.match(home, /href="\/privacy"/);
-  assert.match(home, /class="customer-data-note"[^>]*>[^<]*<a href="\/privacy"/);
 });
 
-test("特定商取引法ページは未設定の事業者情報を明示する", () => {
+test("特定商取引法ページはオンラインショップ停止中と未設定情報を明示する", () => {
   assert.match(legal, /特定商取引法に基づく表記/);
+  assert.match(legal, /オンラインショップは一時停止しています/);
   assert.match(legal, /後日記入：販売業者の正式名称/);
-  assert.match(legal, /注文・決済・売買契約は確定しません/);
 });
 
-test("プライバシーポリシーに実際の問い合わせデータと保存先を記載する", () => {
-  assert.match(privacy, /お名前、電話番号またはメールアドレス/);
-  assert.match(privacy, /決済情報や配送先住所は取得しません/);
+test("プライバシーポリシーにフォーム停止と既存データの取り扱いを記載する", () => {
+  assert.match(privacy, /オンライン注文とお問い合わせフォームを停止しています/);
+  assert.match(privacy, /お名前や連絡先を入力するフォームを設置していません/);
+  assert.match(privacy, /過去にこのサイトのフォームで受け付けたお問い合わせ情報/);
   assert.match(privacy, /Cloudflareのサービス/);
 });

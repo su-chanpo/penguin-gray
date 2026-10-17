@@ -62,6 +62,37 @@ const env = {
   ENVIRONMENT: "production"
 };
 
+test("公開の商品一覧と新規問い合わせAPIは停止し、店舗情報APIは引き続き利用できる", async () => {
+  const productsResponse = await worker.fetch(
+    new Request("https://shop.example.com/api/public/products"),
+    env
+  );
+  const ordersResponse = await worker.fetch(
+    new Request("https://shop.example.com/api/public/orders", { method: "POST" }),
+    env
+  );
+  assert.equal(productsResponse.status, 404);
+  assert.equal(ordersResponse.status, 404);
+
+  const storeResponse = await worker.fetch(
+    new Request("https://shop.example.com/api/public/store"),
+    {
+      ...env,
+      DB: {
+        prepare() {
+          return {
+            async all() {
+              return { results: [{ key: "store_name", value: "handicraft 山添" }] };
+            }
+          };
+        }
+      }
+    }
+  );
+  assert.equal(storeResponse.status, 200);
+  assert.deepEqual(await storeResponse.json(), { settings: { store_name: "handicraft 山添" } });
+});
+
 test("管理APIはAccess JWTがなければ拒否する", async () => {
   const response = await worker.fetch(
     new Request("https://shop.example.com/api/admin/session"),

@@ -303,73 +303,9 @@ async function verifyProductImage(request, env, image) {
   if (!response.ok) fail(400, "選択した商品写真が見つかりません。");
 }
 
-async function getPublicProducts(env) {
-  const result = await env.DB.prepare(
-    "SELECT id, name, description, price, category, image, instagram_post, sort_order, is_active, is_sample FROM products WHERE is_active = 1 ORDER BY sort_order, id"
-  ).all();
-  return result.results.map(mapProduct);
-}
-
 async function getStoreSettings(env) {
   const result = await env.DB.prepare("SELECT key, value FROM store_settings ORDER BY key").all();
   return Object.fromEntries(result.results.map(({ key, value }) => [key, value]));
-}
-
-async function createOrder(request, env) {
-  assertSameOrigin(request);
-  const body = await readJson(request);
-  if (!body || typeof body !== "object" || Array.isArray(body)) fail(400, "注文内容を確認してください。");
-  const customerName = requiredText(body.customerName, "お名前", 80);
-  const contact = requiredText(body.contact, "連絡先", 120);
-  const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact);
-  const isPhone = /^\+?[0-9 ()-]{7,30}$/.test(contact);
-  if (!isEmail && !isPhone) fail(400, "電話番号またはメールアドレスの形式を確認してください。");
-  const note = requiredText(body.note ?? "", "お問い合わせ内容", 1000, { allowEmpty: true });
-  if (!Array.isArray(body.items) || body.items.length < 1 || body.items.length > 30) fail(400, "カートの商品を確認してください。");
-
-  const quantities = new Map();
-  for (const item of body.items) {
-    if (
-      !item ||
-      typeof item.productId !== "string" ||
-      !/^[a-z0-9-]{1,80}$/.test(item.productId) ||
-      !Number.isInteger(item.quantity) ||
-      item.quantity < 1 ||
-      item.quantity > 20 ||
-      quantities.has(item.productId)
-    ) {
-      fail(400, "商品または数量を確認してください。");
-    }
-    quantities.set(item.productId, item.quantity);
-  }
-
-  const ids = [...quantities.keys()];
-  const placeholders = ids.map(() => "?").join(", ");
-  const result = await env.DB.prepare(
-    `SELECT id, name, price, image FROM products WHERE is_active = 1 AND id IN (${placeholders})`
-  ).bind(...ids).all();
-  const productsById = new Map(result.results.map((product) => [product.id, product]));
-  if (productsById.size !== ids.length) fail(400, "販売中でない商品が含まれています。ページを更新してください。");
-
-  const items = ids.map((id) => {
-    const product = productsById.get(id);
-    const quantity = quantities.get(id);
-    return {
-      productId: id,
-      name: product.name,
-      image: product.image,
-      price: product.price,
-      quantity,
-      subtotal: product.price * quantity
-    };
-  });
-  const total = items.reduce((sum, item) => sum + item.subtotal, 0);
-  const id = crypto.randomUUID();
-  const now = new Date().toISOString();
-  await env.DB.prepare(
-    "INSERT INTO orders (id, customer_name, contact, note, items_json, total, status, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, 'new', ?, ?)"
-  ).bind(id, customerName, contact, note, JSON.stringify(items), total, now, now).run();
-  return json({ id, status: "new" }, 201);
 }
 
 async function createProduct(request, env) {
@@ -559,14 +495,8 @@ async function route(request, env) {
   }
   if (request.method === "GET" && url.pathname === "/api/health") return json({ ok: true });
 
-  if (request.method === "GET" && url.pathname === "/api/public/products") {
-    return json({ products: await getPublicProducts(env) });
-  }
   if (request.method === "GET" && url.pathname === "/api/public/store") {
     return json({ settings: await getStoreSettings(env) });
-  }
-  if (request.method === "POST" && url.pathname === "/api/public/orders") {
-    return createOrder(request, env);
   }
   if (url.pathname.startsWith("/api/admin/")) return handleAdminApi(request, env, url);
   fail(404, "APIが見つかりません。");
